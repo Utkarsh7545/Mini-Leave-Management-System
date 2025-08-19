@@ -32,6 +32,7 @@ A comprehensive leave management system built with React (TypeScript), Node.js/E
 - **React Router DOM** for navigation
 - **React Hot Toast** for notifications
 - **Axios** for API communication
+- **Lucide React** for icons
 
 ### Backend
 
@@ -45,24 +46,58 @@ A comprehensive leave management system built with React (TypeScript), Node.js/E
 ## 📁 Project Structure
 
 ```
-Mini Leave Management System/
-├── frontend/                 # React frontend application
+Mini-Leave-Management-System/
+├── backend/                    # Node.js backend application
+│   ├── config/
+│   │   └── database.js        # MongoDB connection configuration
+│   ├── middleware/
+│   │   └── auth.js           # JWT authentication middleware
+│   ├── models/
+│   │   ├── Employee.js       # Employee data model
+│   │   └── LeaveRequest.js   # Leave request data model
+│   ├── routes/
+│   │   ├── auth.js          # Authentication routes
+│   │   ├── employees.js     # Employee management routes
+│   │   └── leaves.js        # Leave management routes
+│   ├── package.json         # Backend dependencies
+│   ├── package-lock.json    # Backend dependency lock file
+│   └── server.js            # Main server file
+├── frontend/                  # React frontend application
 │   ├── src/
 │   │   ├── components/      # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── contexts/       # React contexts (Auth)
-│   │   ├── types/          # TypeScript type definitions
-│   │   ├── utils/          # Utility functions
-│   │   └── App.tsx         # Main App component
-│   ├── public/             # Static assets
-│   └── package.json        # Frontend dependencies
-├── backend/                # Node.js backend application
-│   ├── models/            # Mongoose models
-│   ├── routes/            # API route handlers
-│   ├── middleware/        # Custom middleware
-│   ├── config/            # Configuration files
-│   └── server.js          # Main server file
-└── README.md              # Project documentation
+│   │   │   ├── Layout.tsx   # Main layout wrapper
+│   │   │   ├── Navbar.tsx   # Navigation bar
+│   │   │   ├── ProtectedRoute.tsx # Route protection component
+│   │   │   └── Sidebar.tsx  # Sidebar navigation
+│   │   ├── contexts/        # React contexts
+│   │   │   └── AuthContext.tsx # Authentication context
+│   │   ├── pages/           # Page components
+│   │   │   ├── ApplyLeave.tsx # Leave application page
+│   │   │   ├── Dashboard.tsx # Main dashboard
+│   │   │   ├── Employees.tsx # Employee management
+│   │   │   ├── LeaveRequests.tsx # Leave review page
+│   │   │   ├── Login.tsx    # Login page
+│   │   │   ├── MyLeaves.tsx # Personal leave history
+│   │   │   ├── Reports.tsx  # Reports and analytics
+│   │   │   └── Signup.tsx   # Registration page
+│   │   ├── types/           # TypeScript type definitions
+│   │   │   └── index.ts     # All type definitions
+│   │   ├── utils/           # Utility functions
+│   │   │   ├── api.ts       # API client configuration
+│   │   │   └── date.ts      # Date utility functions
+│   │   ├── App.tsx          # Main App component
+│   │   ├── index.css        # Global styles
+│   │   └── main.tsx         # Application entry point
+│   ├── index.html           # HTML template
+│   ├── package.json         # Frontend dependencies
+│   ├── package-lock.json    # Frontend dependency lock file
+│   ├── postcss.config.js    # PostCSS configuration
+│   ├── tailwind.config.js   # Tailwind CSS configuration
+│   ├── tsconfig.json        # TypeScript configuration
+│   ├── tsconfig.node.json   # TypeScript Node configuration
+│   └── vite.config.ts       # Vite build configuration
+├── .gitignore               # Git ignore rules
+└── README.md               # Project documentation
 ```
 
 ## 🚀 Setup Instructions
@@ -76,11 +111,9 @@ Mini Leave Management System/
 ### Step 1: Clone and Setup
 
 ```bash
-# Create project directory
-mkdir "Mini Leave Management System"
-cd "Mini Leave Management System"
-
-# Setup will be done via the provided files
+# Clone the repository
+git clone <repository-url>
+cd Mini-Leave-Management-System
 ```
 
 ### Step 2: Backend Setup
@@ -148,7 +181,9 @@ The system comes with demo data. Use these credentials to login:
 - `POST /api/employees` - Add new employee (HR only)
 - `GET /api/employees` - Get all employees (HR only)
 - `GET /api/employees/:id/balance` - Get employee leave balance
+- `GET /api/employees/me/balance` - Get current user's leave balance
 - `GET /api/employees/:id/leaves` - Get employee leave history
+- `GET /api/employees/me/leaves` - Get current user's leave history
 
 ### Leave Management
 
@@ -223,7 +258,7 @@ The application is fully responsive and works across:
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 PORT=8000
-NODE_ENV=production
+NODE_ENV=development
 FRONTEND_URL=your_frontend_url
 ```
 

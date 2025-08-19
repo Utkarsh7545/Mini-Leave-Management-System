@@ -20,10 +20,7 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.FRONTEND_URL
-        : "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -42,7 +39,6 @@ app.get("/api/health", (req, res) => {
     success: true,
     message: "Leave Management System API is running",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV,
   });
 });
 
@@ -61,10 +57,7 @@ app.use((error, req, res, next) => {
   res.status(500).json({
     success: false,
     message: "Internal server error",
-    error:
-      process.env.NODE_ENV === "development"
-        ? error.message
-        : "Something went wrong",
+    error: error.message,
   });
 });
 
@@ -73,7 +66,6 @@ const PORT = process.env.PORT || 8000;
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
   console.log(`API endpoints available at: http://localhost:${PORT}/api`);
 });
 
