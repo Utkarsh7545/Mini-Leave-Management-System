@@ -1,10 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: '/api', // This will use the Vite proxy in development
+  baseURL:
+    window.location.hostname === "localhost"
+      ? "/api" // This will use the Vite proxy in development
+      : "https://mini-leave-management-system-backend.onrender.com/api", // Production
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -12,12 +15,12 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // Get token from localStorage
-    const token = localStorage.getItem('authToken');
-    
+    const token = localStorage.getItem("authToken");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -34,15 +37,15 @@ api.interceptors.response.use(
     // Handle 401 Unauthorized responses
     if (error.response?.status === 401) {
       // Clear token and redirect to login
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
-      
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+
       // Only redirect if not already on login page
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
@@ -54,10 +57,10 @@ export const handleApiError = (error: any): string => {
   if (error.response?.data?.message) {
     return error.response.data.message;
   } else if (error.response?.data?.errors) {
-    return error.response.data.errors.join(', ');
+    return error.response.data.errors.join(", ");
   } else if (error.message) {
     return error.message;
   } else {
-    return 'An unexpected error occurred';
+    return "An unexpected error occurred";
   }
 };

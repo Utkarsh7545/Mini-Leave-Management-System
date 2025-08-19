@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://mini-leave-management-system-backend.onrender.com",
+        target: "http://localhost:8000",
         changeOrigin: true,
       },
     },
